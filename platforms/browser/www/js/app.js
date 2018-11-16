@@ -1,35 +1,52 @@
+
+var json;
+var jsonString;
+var cityActual;
+
 $( document ).ready(function() {
+
     $.getJSON("http://www.solatravellers.com/events/jason.json", function(result) {
 
-        $.each(result, function(i, field) {
-            //console.log(field);
-
-            $.each(field, function(i, dato) {
-                $("#output").append("<h1>"+dato.name+"</h1>");
-                //$("#output").append(JSON.stringify(field, undefined, 2));
-            });
-        });
-
+        json = result;
+        jsonString=JSON.stringify(json);
+        console.log(json);
+        localStorage.setItem("json-event", jsonString);
+        console.log(localStorage.getItem("json-event"));
     });
+
+    var delay = 20000;
+    var url = "home.html";
+    var timeoutID = setTimeout(function() {
+        window.location.href = url;
+    }, delay);
+
 });
 
-var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0
-};
 
-function success(pos) {
-    var crd = pos.coords;
 
-    console.log('Your current position is:');
-    console.log('Latitude : ' + crd.latitude);
-    console.log('Longitude: ' + crd.longitude);
-    console.log('More or less ' + crd.accuracy + ' meters.');
-};
+function citys($city){
 
-function error(err) {
-    console.warn('ERROR(' + err.code + '): ' + err.message);
-};
+    $(".events").empty();
 
-navigator.geolocation.getCurrentPosition(success, error, options);
+    var cityActual = $city;
+    console.log(cityActual);
+    array = JSON.parse(localStorage.getItem("json-event"));
+    console.log(array);
+
+    $.each(array, function(i, field) {
+        //console.log(field);
+        $.each(field, function(i, dato) {
+            if(cityActual==dato.city.name){
+                var str = dato.date;
+                var date = str.substr(0, 10);
+                $(".events").append("<ul><li>"+dato.name+"</li><li>"+date+"</li><li>"+dato.description+"</li><ul>");
+
+            }
+
+        });
+    });
+
+
+
+
+}

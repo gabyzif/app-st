@@ -1,28 +1,52 @@
+
+var json;
+var jsonString;
+var cityActual;
+
 $( document ).ready(function() {
+
     $.getJSON("http://www.solatravellers.com/events/jason.json", function(result) {
 
-        $.each(result, function(i, field) {
-            //console.log(field);
-
-            $.each(field, function(i, dato) {
-                $("#output").append("<h1>"+dato.name+"</h1>");
-                //$("#output").append(JSON.stringify(field, undefined, 2));
-            });
-        });
-
+        json = result;
+        jsonString=JSON.stringify(json);
+        console.log(json);
+        localStorage.setItem("json-event", jsonString);
+        console.log(localStorage.getItem("json-event"));
     });
+
+    var delay = 20000;
+    var url = "home.html";
+    var timeoutID = setTimeout(function() {
+        window.location.href = url;
+    }, delay);
+
 });
 
-var x = document.getElementById("demo");
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-}
-function showPosition(position) {
-    x.innerHTML = "Latitude: " + position.coords.latitude +
-        "<br>Longitude: " + position.coords.longitude;
-}
 
+
+function citys($city){
+
+    $(".events").empty();
+
+    var cityActual = $city;
+    console.log(cityActual);
+    array = JSON.parse(localStorage.getItem("json-event"));
+    console.log(array);
+
+    $.each(array, function(i, field) {
+        //console.log(field);
+        $.each(field, function(i, dato) {
+            if(cityActual==dato.city.name){
+                var str = dato.date;
+                var date = str.substr(0, 10);
+                $(".events").append("<ul><li>"+dato.name+"</li><li>"+date+"</li><li>"+dato.description+"</li><ul>");
+
+            }
+
+        });
+    });
+
+
+
+
+}
