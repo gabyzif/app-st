@@ -26,7 +26,11 @@ $( document ).ready(function() {
 
 function citys($city){
 
-    $(".events").empty();
+    $(".js-citys-div").hide();
+    $(".js-events").show();
+    $("#btn-back").show();
+
+    //$(".js-events").empty();
 
     var cityActual = $city;
     console.log(cityActual);
@@ -39,7 +43,7 @@ function citys($city){
             if(cityActual==dato.city.name){
                 var str = dato.date;
                 var date = str.substr(0, 10);
-                $(".events").append("<ul><li>"+dato.name+"</li><li>"+date+"</li><li>"+dato.description+"</li><ul>");
+                $(".js-events").append("<ul><li>"+dato.name+"</li><li>"+date+"</li><li>"+dato.description+"</li><ul>");
 
             }
 
@@ -47,6 +51,14 @@ function citys($city){
     });
 
 
+
+
+}
+
+function back(){
+    $(".js-citys-div").show();
+    $(".js-events").empty();
+    $(".js-events").hide();
 
 
 }
