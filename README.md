@@ -1,4 +1,4 @@
-# A Blank PhoneGap App
+# Solatravellers PhoneGap App / University project
 
 ## Usage
 
